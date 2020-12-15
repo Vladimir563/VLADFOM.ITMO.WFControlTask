@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SimpleCalculator
@@ -56,6 +57,68 @@ namespace SimpleCalculator
         private void IngeneersCalc_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            textBoxFactorialResult.Text = "0";
+
+            if (!backgroundWorker1.IsBusy) 
+            {
+                labelFactStatus.Text = "Processing...";
+                labelFactStatus.ForeColor = Color.Black;
+                backgroundWorker1.RunWorkerAsync();
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Thread.Sleep(2000);
+            if (backgroundWorker1.CancellationPending)
+            {
+                e.Cancel = true;
+            }
+            else 
+            {
+                e.Result = Factorial(int.Parse(OutputDisplay.Text));
+            }
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                labelFactStatus.Text = "Canceled";
+            }
+            else 
+            {
+                textBoxFactorialResult.Text = e.Result.ToString();
+                labelFactStatus.Text = "Finished";
+            }
+            
+        }
+
+        private void cmdFactorialCalculationCancel_Click(object sender, EventArgs e)
+        {
+            backgroundWorker1.CancelAsync();
+        }
+
+        public static long Factorial(int x)
+        {
+            if (x == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return x * Factorial(x - 1);
+            }
+        }
+
+
+        private void KeyClear_Click_1(object sender, EventArgs e)
+        {
+            textBoxFactorialResult.Text = "0";
         }
     }
 }

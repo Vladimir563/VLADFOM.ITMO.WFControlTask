@@ -53,6 +53,7 @@ namespace SimpleCalculator
         public ToolStripMenuItem menuToolStripMenuItem;
         private ToolStripMenuItem EngeneeringCalcStripMenuItem;
         private ToolStripMenuItem simpleCalcuStripMenuItem;
+        private ToolTip buttonsToolTip;
 
         /// <summary>
         /// Required designer variable.
@@ -66,6 +67,14 @@ namespace SimpleCalculator
 			//
 
 			InitializeComponent();
+
+            ToolTip buttonsToolTip = new ToolTip();
+
+
+            buttonsToolTip.SetToolTip(this.KeyDivide,"divide button");
+            buttonsToolTip.SetToolTip(this.KeyMultiply,"multiply button");
+            buttonsToolTip.SetToolTip(this.KeyMinus,"minus button");
+            buttonsToolTip.SetToolTip(this.KeyPlus,"plus button");
 
 			//
 			// Get version information from the Calculator Module.
@@ -388,6 +397,7 @@ namespace SimpleCalculator
             this.KeyDivide.Size = new System.Drawing.Size(40, 40);
             this.KeyDivide.TabIndex = 15;
             this.KeyDivide.TabStop = false;
+            this.KeyDivide.Tag = "";
             this.KeyDivide.Text = "/";
             this.KeyDivide.Click += new System.EventHandler(this.KeyDivide_Click);
             // 
@@ -487,6 +497,7 @@ namespace SimpleCalculator
 		protected void KeyDivide_Click (object sender, System.EventArgs e)
 		{
 			CalcEngine.CalcOperation (CalcEngine.Operator.eDivide);
+
 		}
 
 
@@ -514,7 +525,7 @@ namespace SimpleCalculator
 		{
 			CalcEngine.CalcReset();
 			OutputDisplay.Text = "0";
-		}
+        }
 
 		//
 		// Perform the calculation.
